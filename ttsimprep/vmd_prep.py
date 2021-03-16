@@ -24,7 +24,7 @@ class PrepPSF:
 		os.system("rm psf_temp.tcl")
 
 
-class Merge:
+class EditStructure:
 
 	'''A class for merging 2 structure files'''
 
@@ -34,24 +34,39 @@ class Merge:
 		self.file2 = file2
 		self.outFile = outFile
 
-
-	def merge(self, fileType):
-		'''Merge 2 PSF files together'''
-		with open(os.path.abspath("tcl_scripts/merge.tcl")) as fn:
-			lines = fn.readlines()
-
-		with open("merge_temp.tcl","w") as merge:
-			replaceList = dict({"file_1":str(self.file1),"file_2":str(self.file2),"out_file":str(self.outFile), "TYPE":str(fileType).lower()})
-			for line in lines:
-				for i in replaceList:
-					if i in line:
-						line = line.replace(i, replaceList[i])
-				merge.write(line)
-
-		os.system(self.vmd_path + " -dispdev text -e merge_temp.tcl")
-		os.system("rm merge_temp.tcl")
+	def anchorResidues(self, resid1, resid2):
+		pass
 
 	def moveApart(self, distance):
 		'''Move the alpha carbons of the anchoring residues a certian distance apart'''
-		pass
+		replaceDict = dict({"file_name":self.file1, "distance":distance})
+		EditStructure.makeAndRunTclFile("move.tcl", replaceDict, self.vmd_path)
 
+	def mergeStructures(self, fileType):
+		'''Merge 2 structure files together'''
+		replaceDict = dict({"file_1":str(self.file1),"file_2":str(self.file2),
+			"out_file":str(self.outFile), "TYPE":str(fileType).lower()})
+
+		EditStructure.makeAndRunTclFile("merge.tcl", replaceDict, self.vmd_path)
+
+
+	def runTclFile(vmdPath, fileName):
+		os.system(vmdPath + " -dispdev text -e " + fileName)
+		# os.system("rm " + fileName)
+
+	def createTclFile(templateFileName, replaceDict):
+		with open("temp.tcl","w") as merge:
+			lines = EditStructure.readTemplateFile(templateFileName)
+			for line in lines:
+				for i in replaceDict:
+					if i in line:
+						line = line.replace(i, str(replaceDict[i]))
+				merge.write(line)
+
+	def readTemplateFile(templateFileName):
+		with open(os.path.abspath("tcl_scripts/" + templateFileName)) as fn:
+			return fn.readlines()
+
+	def makeAndRunTclFile(templateFileName, replaceDict, vmdPath):
+		EditStructure.createTclFile(templateFileName, replaceDict)
+		EditStructure.runTclFile(vmdPath, "temp.tcl")
