@@ -7,6 +7,6 @@ set mol [mol new file_2 waitfor all]
 lappend midlist $mol
 
 set mol [::TopoTools::mergemols $midlist]
-animate write pdb out_file $mol
+animate write TYPE out_file $mol
 
 exit

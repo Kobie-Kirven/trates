@@ -16,5 +16,8 @@ prep = PrepPSF(vmd,"out.pdb")
 
 prep.psf_builder()
 
-comb = Merge(vmd, "out.psf","out.psf", "out_comb.psf")
-comb.mergePSF()
+comb_psf = Merge(vmd, "out.psf","out.psf", "out_comb.psf")
+comb_psf.merge("PSF")
+
+comb_pdb = Merge(vmd, "out.pdb","out.pdb", "out_comb.pdb")
+comb_pdb.merge("PDB")

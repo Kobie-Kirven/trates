@@ -34,22 +34,24 @@ class Merge:
 		self.file2 = file2
 		self.outFile = outFile
 
-	def mergePSF(self):
+
+	def merge(self, fileType):
 		'''Merge 2 PSF files together'''
-		with open(os.path.abspath("tcl_scripts/psf_merge.tcl")) as fn:
+		with open(os.path.abspath("tcl_scripts/merge.tcl")) as fn:
 			lines = fn.readlines()
 
-		with open("psf_merge_temp.tcl","w") as merge:
-			replaceList = dict({"file_1":str(self.file1),"file_2":str(self.file2),"out_file":str(self.outFile)})
+		with open("merge_temp.tcl","w") as merge:
+			replaceList = dict({"file_1":str(self.file1),"file_2":str(self.file2),"out_file":str(self.outFile), "TYPE":str(fileType).lower()})
 			for line in lines:
 				for i in replaceList:
 					if i in line:
 						line = line.replace(i, replaceList[i])
 				merge.write(line)
 
-		os.system(self.vmd_path + " -dispdev text -e psf_merge_temp.tcl")
-		os.system("rm psf_merge_temp.tcl")
+		os.system(self.vmd_path + " -dispdev text -e merge_temp.tcl")
+		os.system("rm merge_temp.tcl")
 
-
-	def mergePDB(self):
+	def moveApart(self, distance):
+		'''Move the alpha carbons of the anchoring residues a certian distance apart'''
 		pass
+
