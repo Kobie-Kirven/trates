@@ -12,7 +12,11 @@ seq = Slicer("fasta_test.fasta").slice(1, 60)
 
 out_path = "output_files" 
 
-os.system("mkdir " + out_path)
+try:
+	os.system("mkdir " + out_path)
+
+except:
+	pass
 Structure.buildStructure(seq,"out1.pdb", out_path)
 Structure.buildStructure(seq,"out2.pdb", out_path)
 
