@@ -9,6 +9,7 @@ from ttsimprep import PrepPSF, EditStructure
 import os
 
 seq = Slicer("fasta_test.fasta").slice(1, 60)
+seq2 = Slicer("fasta_test.fasta").slice(480, 540)
 
 out_path = "output_files" 
 
@@ -18,7 +19,8 @@ try:
 except:
 	pass
 Structure.buildStructure(seq,"out1.pdb", out_path)
-Structure.buildStructure(seq,"out2.pdb", out_path)
+Structure.buildStructure(seq2,"out2.pdb", out_path)
+Structure.renumberResidues("out2.pdb", 480, 540, out_path)
 
 vmd = "/Applications/VMD\ 1.9.4a48-Catalina-Rev7.app/Contents/vmd/vmd_MACOSXX86_64"
 

@@ -15,4 +15,4 @@ class Slicer:
             return "Error: The ending residue is the same or less than the starting residue"
         else:
             for rec in SeqIO.parse(self.fileName, "fasta"):
-                return str(rec.seq)[(start - 1) : (stop + 1)]
+                return str(rec.seq)[(start - 1) : (stop)]
