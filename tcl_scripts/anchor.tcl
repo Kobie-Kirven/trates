@@ -9,8 +9,10 @@ $sel set beta 0
 
 #Set the beta value to 1 for the alpha carbons of each
 # of the anchoring residues
-set Fix [atomselect top "resid residue and name CA"]
-$Fix set beta 1
+set Fix1 [atomselect top "resid residue1 and name CA"]
+set Fix2 [atomselect top "resid residue2 and name CA"]
+$Fix1 set beta 1
+$Fix2 set beta 1
 
 $sel writepdb out_path/file_name
 

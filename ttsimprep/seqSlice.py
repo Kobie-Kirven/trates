@@ -16,3 +16,7 @@ class Slicer:
         else:
             for rec in SeqIO.parse(self.fileName, "fasta"):
                 return str(rec.seq)[(start - 1) : (stop)]
+
+    def sliceNC(self, start, stop):
+    	for rec in SeqIO.parse(self.fileName, "fasta"):
+                return (str(rec.seq)[(start - 1) : (stop)])[::-1]

@@ -42,9 +42,16 @@ class EditStructure:
 
 		EditStructure.makeAndRunTclFile("merge.tcl", replaceDict, self.vmd_path)
 
+	def rotateStructure(self):
+		replaceDict = dict({"file_name":str(self.file2),
+			"out_file":str(self.outFile),
+			"out_path":self.outPath})
+
+		EditStructure.makeAndRunTclFile("rotate.tcl", replaceDict, self.vmd_path)
+
 
 	def runTclFile(vmdPath, fileName):
-		os.system(vmdPath + " -dispdev text -e " + fileName)
+		os.system(vmdPath + " -dispdev text -e " + fileName + " > out.txt")
 		os.system("rm " + fileName)
 
 	def createTclFile(templateFileName, replaceDict):
@@ -56,8 +63,9 @@ class EditStructure:
 						line = line.replace(i, str(replaceDict[i]))
 				merge.write(line)
 
-	def anchorResidue(self,resid, fileName):
-		replaceDict = dict({"file_name":fileName, "residue":resid, "out_path":self.outPath})
+	def anchorResidue(self,resid1, resid2, fileName):
+		replaceDict = dict({"file_name":fileName, "residue1":resid1, 
+			"residue2":resid2, "out_path":self.outPath})
 		EditStructure.makeAndRunTclFile("anchor.tcl", replaceDict, self.vmd_path)
 
 	def readTemplateFile(templateFileName):

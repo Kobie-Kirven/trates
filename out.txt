@@ -1,0 +1,31 @@
+Info) VMD for MACOSXX86_64, version 1.9.4a48 (October 13, 2020)
+Info) http://www.ks.uiuc.edu/Research/vmd/                         
+Info) Email questions and bug reports to vmd@ks.uiuc.edu           
+Info) Please include this reference in published work using VMD:   
+Info)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual   
+Info)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.
+Info) -------------------------------------------------------------
+Info) Multithreading available, 4 CPUs detected.
+Info)   CPU features: SSE2 SSE4.1 AVX AVX2 F16 HT 
+Info) Using plugin pdb for structure file test/test_file.pdb
+Info) Using plugin pdb for coordinates from file test/test_file.pdb
+Info) Determining bond structure from distance search ...
+Info) Analyzing structure ...
+Info)    Atoms: 1800
+Info)    Bonds: 1822
+Info)    Angles: 0  Dihedrals: 0  Impropers: 0  Cross-terms: 0
+Info)    Bondtypes: 0  Angletypes: 0  Dihedraltypes: 0  Impropertypes: 0
+Info)    Residues: 119
+Info)    Waters: 0
+Info)    Segments: 1
+Info)    Fragments: 2   Protein: 2   Nucleic: 0
+Info) Finished with coordinate file test/test_file.pdb.
+0
+atomselect0
+atomselect1
+atomselect2
+Info) Opened coordinate file test/test_file.pdb for writing.
+Info) Finished with coordinate file test/test_file.pdb.
+Info) VMD for MACOSXX86_64, version 1.9.4a48 (October 13, 2020)
+Info) Exiting normally.
+vmd > 
