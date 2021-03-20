@@ -1,0 +1,13 @@
+README.md
+pyproject.toml
+setup.py
+src/TTSIM.egg-info/PKG-INFO
+src/TTSIM.egg-info/SOURCES.txt
+src/TTSIM.egg-info/dependency_links.txt
+src/TTSIM.egg-info/top_level.txt
+src/ttsimprep/Geometry.py
+src/ttsimprep/PeptideBuilder.py
+src/ttsimprep/__init__.py
+src/ttsimprep/seqSlice.py
+src/ttsimprep/structureBuilder.py
+src/ttsimprep/vmd_prep.py

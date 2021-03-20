@@ -1,0 +1,16 @@
+Metadata-Version: 2.1
+Name: TTSIM
+Version: 0.0.1
+Summary: Transporter Termini SIMulation
+Home-page: https://github.com/Kobie-Kirven/TTSIM
+Author: Kobie Kirven
+Author-email: kjkirven@presby.edu
+License: UNKNOWN
+Project-URL: Bug Tracker, https://github.com/Kobie-Kirven/TTSIM/issues
+Description: Transporter Termini SIMulation
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
