@@ -76,6 +76,7 @@ def main():
     )
 
     args = parser.parse_args()
+
     try:
         os.system("mkdir " + args.out_path)
     except:
