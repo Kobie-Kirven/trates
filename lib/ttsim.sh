@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [[ ! $@ ]]; then
-    python3 -m ../src -h
+    python3 -m src -h
 else
-    python3 -m ../src $@
+    python3 -m src $@
 fi
