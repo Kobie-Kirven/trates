@@ -2,6 +2,7 @@ README.md
 setup.py
 ./lib/ttsim.sh
 src/__main__.py
+src/ttsim.py
 ttsim.egg-info/PKG-INFO
 ttsim.egg-info/SOURCES.txt
 ttsim.egg-info/dependency_links.txt
