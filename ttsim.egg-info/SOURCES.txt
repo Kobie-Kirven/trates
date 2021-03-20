@@ -1,0 +1,9 @@
+README.md
+setup.py
+./lib/ttsim.sh
+src/__main__.py
+ttsim.egg-info/PKG-INFO
+ttsim.egg-info/SOURCES.txt
+ttsim.egg-info/dependency_links.txt
+ttsim.egg-info/requires.txt
+ttsim.egg-info/top_level.txt
