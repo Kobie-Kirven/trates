@@ -1,4 +1,4 @@
-![TRATES logo](https://github.com/Kobie-Kirven/trates/blob/main/docs/_static/trates_logo.png)
+![TRATES logo](https://github.com/Kobie-Kirven/trates/blob/main/docs/_static/trates_logo.png =250x)
 
 <h1>TRATES</h1>
 <h3>TRAnsporter TErmini Simulations</h3>
