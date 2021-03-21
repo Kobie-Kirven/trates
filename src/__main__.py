@@ -18,9 +18,12 @@ from Bio import SeqIO
 
 def main():
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='TRAnsporter TErmani Simulations')
     parser.add_argument(
-        "-1", "--input-1", dest="in1", help="First FASTA input file"
+        "-1", 
+        "--input-1", dest="in1", 
+        help="First FASTA input file",
+        required=True
     )
 
     parser.add_argument(
@@ -29,10 +32,14 @@ def main():
         dest="s1",
         help="The positons of the start and stop residue (inclusive) for the \
         first terminus seperated by a dash (start-stop)",
+        required=True
     )
 
     parser.add_argument(
-        "-2", "--input-2", dest="in2", help="Second FASTA input file"
+        "-2", 
+        "--input-2", dest="in2", 
+        help="Second FASTA input file",
+        required=True
     )
 
     parser.add_argument(
@@ -41,6 +48,7 @@ def main():
         dest="s2",
         help="The positons of the start and stop residue (inclusive) for the \
         second terminus seperated by a dash (start-stop)",
+        required=True
     )
 
     parser.add_argument(
@@ -48,6 +56,7 @@ def main():
         "--output-path",
         dest="out_path",
         help="Path and name of output folder (Ex. ~/Desktop/output",
+        required=True
     )
 
     parser.add_argument(
@@ -55,14 +64,17 @@ def main():
         "--n-and-c",
         dest="nc",
         help="Boolean (T/F) if the simulation is for a combination of the N-terminus and C-terminus",
+        required=True
     )
 
     parser.add_argument(
-        "-vmd", "--vmd-path", dest="vmd", help="Path to VMD"
+        "-vmd", "--vmd-path", dest="vmd", help="Path to VMD",
+        required=True
     )
 
     parser.add_argument(
-        "-n", "--out-name", dest="out_name", help="Name of output files"
+        "-n", "--out-name", dest="out_name", help="Name of output files",
+        required=True
     )
 
     parser.add_argument(
@@ -70,6 +82,7 @@ def main():
         "--anchoring-residues",
         dest="anchor",
         help="Anchoring residue for each terminus in comma-seperated format",
+        required=True
     )
 
     parser.add_argument(
@@ -77,16 +90,14 @@ def main():
         "--distance-apart",
         dest="distance",
         help="Distance between alpha carbons of anchoring residues in angstroms",
+        required=True
     )
 
     valid = True
-    # Check to see if any arguments were inputted
     args = parser.parse_args()
-    if len(sys.argv) == 1:
-        parser.print_help(sys.stderr)
-        valid = False
 
-    elif len(sys.argv) > 1:
+    # Input Checks
+    if len(sys.argv) > 1:
         try:
             SeqIO.parse(args.in1, "fasta")
             SeqIO.parse(args.in2, "fasta")
