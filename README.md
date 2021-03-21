@@ -1,3 +1,5 @@
+![Black Logo](https://raw.githubusercontent.com/Kobie-Kirven/trates/docs/_static/trates_logo.png)
+
 <h1>TRATES</h1>
 <h3>TRAnsporter TErmini Simulations</h3>
 
