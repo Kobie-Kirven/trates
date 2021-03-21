@@ -1,4 +1,5 @@
-<img src="https://github.com/Kobie-Kirven/trates/blob/main/docs/_static/trates_logo.png" width="350"/>
+
+![TRATES logo](https://github.com/Kobie-Kirven/trates/blob/main/docs/_static/trates_logo.png){:height="36px" width="36px"}
 
 
 <h1>TRATES</h1>
