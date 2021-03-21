@@ -4,9 +4,7 @@
 #
 #!/usr/bin/env python
 
-from .ttsimprep import Slicer
-from .ttsimprep import Structure
-from .ttsimprep import PrepPSF, EditStructure
+from .trates import Slicer, Structure, PrepPSF, EditStructure
 
 import os
 import sys

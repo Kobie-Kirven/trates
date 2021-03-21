@@ -11,13 +11,13 @@ sys.path.insert(0, str(CURRENT_DIR))
 
 
 setuptools.setup(
-    name='ttsim',
+    name='trates',
     version='1.0',
-    packages=['src', 'src/ttsimprep'],
+    packages=['src', 'src/trates'],
     include_package_data =True,
     entry_points={
     'console_scripts': [
-        'ttsim=src.__main__:main',
+        'trates=src.__main__:main',
     ],
     },
     author='Kobie Kirven',
