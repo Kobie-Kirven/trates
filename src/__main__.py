@@ -4,10 +4,9 @@
 #
 #!/usr/bin/env python
 
-from .ttsimprep import Slicer
-from .ttsimprep import Structure
-from .ttsimprep import PrepPSF, EditStructure
-
+# from .ttsimprep import Slicer
+# from .ttsimprep import Structure
+# from .ttsimprep import PrepPSF, EditStructure
 
 import os
 import sys
@@ -76,89 +75,92 @@ def main():
     )
 
     args = parser.parse_args()
+    if len(sys.argv)==1:
+       parser.print_help(sys.stderr) 
 
-    try:
-        os.system("mkdir " + args.out_path)
-    except:
-        print("The directory already exists")
-
-    slice1 = args.s1.split("-")
-    slice2 = args.s2.split("-")
-
-    if args.nc == "T" or args.nc == "TRUE":
-        seq = Slicer(args.in1).sliceNC(int(slice1[0]), int(slice1[1]))
     else:
-        seq = Slicer(args.in1).slice(int(slice1[0]), int(slice1[1]))
+        try:
+            os.system("mkdir " + args.out_path)
+        except:
+            print("The directory already exists")
 
-    seq2 = Slicer(str(args.in2)).slice(int(slice2[0]), int(slice2[1]))
+        slice1 = args.s1.split("-")
+        slice2 = args.s2.split("-")
 
-    # Build the structure for each termminus
-    Structure.buildStructure(
-        seq, args.out_name + "1.pdb", args.out_path
-    )
-    Structure.buildStructure(
-        seq2, args.out_name + "2.pdb", args.out_path
-    )
+        if args.nc == "T" or args.nc == "TRUE":
+            seq = Slicer(args.in1).sliceNC(int(slice1[0]), int(slice1[1]))
+        else:
+            seq = Slicer(args.in1).slice(int(slice1[0]), int(slice1[1]))
 
-    if args.nc == "T" or args.nc == "TRUE":
-        Structure.renumberResiduesBackwards(
-            args.out_name + "1.pdb",
-            int(slice1[0]),
-            int(slice1[1]),
-            args.out_path,
+        seq2 = Slicer(str(args.in2)).slice(int(slice2[0]), int(slice2[1]))
+
+        # Build the structure for each termminus
+        Structure.buildStructure(
+            seq, args.out_name + "1.pdb", args.out_path
         )
-    else:
+        Structure.buildStructure(
+            seq2, args.out_name + "2.pdb", args.out_path
+        )
+
+        if args.nc == "T" or args.nc == "TRUE":
+            Structure.renumberResiduesBackwards(
+                args.out_name + "1.pdb",
+                int(slice1[0]),
+                int(slice1[1]),
+                args.out_path,
+            )
+        else:
+            Structure.renumberResidues(
+                args.out_name + "1.pdb",
+                int(slice1[0]),
+                int(slice1[1]),
+                args.out_path,
+            )
+
         Structure.renumberResidues(
-            args.out_name + "1.pdb",
-            int(slice1[0]),
-            int(slice1[1]),
+            args.out_name + "2.pdb",
+            int(slice2[0]),
+            int(slice2[1]),
             args.out_path,
         )
 
-    Structure.renumberResidues(
-        args.out_name + "2.pdb",
-        int(slice2[0]),
-        int(slice2[1]),
-        args.out_path,
-    )
+        vmd = args.vmd
 
-    vmd = args.vmd
+        prep = PrepPSF(vmd, args.out_name + "1.pdb", args.out_path)
+        prep.psf_builder()
 
-    prep = PrepPSF(vmd, args.out_name + "1.pdb", args.out_path)
-    prep.psf_builder()
+        prep = PrepPSF(vmd, args.out_name + "2.pdb", args.out_path)
+        prep.psf_builder()
 
-    prep = PrepPSF(vmd, args.out_name + "2.pdb", args.out_path)
-    prep.psf_builder()
+        comb_psf = EditStructure(
+            vmd,
+            args.out_name + "1.psf",
+            args.out_name + "2.psf",
+            args.out_name + ".psf",
+            args.out_path,
+        )
+        comb_psf.mergeStructures("PSF")
 
-    comb_psf = EditStructure(
-        vmd,
-        args.out_name + "1.psf",
-        args.out_name + "2.psf",
-        args.out_name + ".psf",
-        args.out_path,
-    )
-    comb_psf.mergeStructures("PSF")
+        comb_pdb = EditStructure(
+            vmd,
+            args.out_name + "1.pdb",
+            args.out_name + "2.pdb",
+            args.out_name + ".pdb",
+            args.out_path,
+        )
+        comb_pdb.moveApart(args.distance)
+        comb_pdb.mergeStructures("PDB")
 
-    comb_pdb = EditStructure(
-        vmd,
-        args.out_name + "1.pdb",
-        args.out_name + "2.pdb",
-        args.out_name + ".pdb",
-        args.out_path,
-    )
-    comb_pdb.moveApart(args.distance)
-    comb_pdb.mergeStructures("PDB")
+        anchor = args.anchor.split(",")
+        comb_pdb.anchorResidue(
+            int(anchor[0]), int(anchor[1]), args.out_name + ".pdb"
+        )
 
-    anchor = args.anchor.split(",")
-    comb_pdb.anchorResidue(
-        int(anchor[0]), int(anchor[1]), args.out_name + ".pdb"
-    )
+        os.system("rm " + args.out_path + "/*1*")
+        os.system("rm " + args.out_path + "/*2*")
+        os.system("rm out.txt")
 
-    os.system("rm " + args.out_path + "/*1*")
-    os.system("rm " + args.out_path + "/*2*")
-    os.system("rm out.txt")
-
-    print("Successfully generated files {}.pdb and {}.psf in {}/".format(args.out_name, args.out_name, args.out_path))
+        print("Successfully generated files {}.pdb and {}.psf in {}/".format(args.out_name, args.out_name, args.out_path))
 
 
 if __name__ == "__main__":
