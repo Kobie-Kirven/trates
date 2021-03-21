@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import pkg_resources
 
 class PrepPSF:
 	'''A class for generating protein structure files'''
@@ -13,8 +14,8 @@ class PrepPSF:
 		'''Build the Protein Structure File for a 
 			given squence'''
 		replaceDict = dict({"file_name":self.molName.strip(".pdb"),
-			"out_path": self.outPath})
-		EditStructure.makeAndRunTclFile("psf.tcl",replaceDict,self.vmd_path)
+			"out_path": self.outPath, "in_path":pkg_resources.resource_filename("src","tcl_scripts")})
+		EditStructure.makeAndRunTclFile("/psf.tcl",replaceDict,self.vmd_path)
 
 class EditStructure:
 
@@ -51,7 +52,7 @@ class EditStructure:
 
 
 	def runTclFile(vmdPath, fileName):
-		os.system(vmdPath + " -dispdev text -e " + fileName)
+		os.system(vmdPath + " -dispdev text -e " + fileName + " > out.txt")
 		os.system("rm " + fileName)
 
 	def createTclFile(templateFileName, replaceDict):
@@ -69,7 +70,7 @@ class EditStructure:
 		EditStructure.makeAndRunTclFile("anchor.tcl", replaceDict, self.vmd_path)
 
 	def readTemplateFile(templateFileName):
-		with open("/usr/local/lib/python3.7/site-packages/src/tcl_scripts/" + templateFileName) as fn:
+		with open(pkg_resources.resource_filename("src","tcl_scripts")+ "/" + templateFileName) as fn:
 			return fn.readlines()
 
 	def makeAndRunTclFile(templateFileName, replaceDict, vmdPath):

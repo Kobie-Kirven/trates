@@ -15,6 +15,8 @@ import subprocess
 
 
 def main():
+    version = sys.version
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-1", "--input-1", dest="in1", help="First FASTA input file"
