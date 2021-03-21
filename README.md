@@ -19,7 +19,7 @@ TRATES takes as input 2 fasta files, each containing only one sequence.
 
 <h3> TRATES Command Line Options</h3>
 
-```bash
+```text
 usage: trates [-h] -1 IN1 -s1 S1 -2 IN2 -s2 S2 -o OUT_PATH -nc NC -vmd VMD -n
               OUT_NAME -a ANCHOR -d DISTANCE
 
