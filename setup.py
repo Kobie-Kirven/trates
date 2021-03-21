@@ -11,20 +11,17 @@ sys.path.insert(0, str(CURRENT_DIR))
 
 
 setuptools.setup(
-    name='trates',
-    version='1.0',
-    packages=['src', 'src/trates'],
-    include_package_data =True,
+    name="trates",
+    version="1.0",
+    packages=["src", "src/trates"],
+    include_package_data=True,
     entry_points={
-    'console_scripts': [
-        'trates=src.__main__:main',
-    ],
+        "console_scripts": [
+            "trates=src.__main__:main",
+        ],
     },
-    author='Kobie Kirven',
-    description='TTSIM',
-    install_requires=[
-        'setuptools',
-        'biopython'
-    ],
-    python_requires='>=3.5'
+    author="Kobie Kirven",
+    description="TTSIM",
+    install_requires=["setuptools", "biopython"],
+    python_requires=">=3.5",
 )

@@ -1,19 +1,22 @@
-################################################################################
-# A program for preparing the preparation files needed for molecular dynamics
+#######################################################################################
+# TraTeS is A program for preparing the preparation files needed for molecular dynamics
 # simulations.
 #
+# Author: Kobie Kirven
+# 3-21-2020
+#######################################################################################
 #!/usr/bin/env python
 
+# Imports
 from .trates import Slicer, Structure, PrepPSF, EditStructure
-
 import os
 import sys
 import argparse
 import subprocess
+from Bio import SeqIO
 
 
 def main():
-    version = sys.version
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -24,7 +27,8 @@ def main():
         "-s1",
         "--slice-1",
         dest="s1",
-        help="The start and stop residue of the first terminus (start-stop)",
+        help="The positons of the start and stop residue (inclusive) for the \
+        first terminus seperated by a dash (start-stop)",
     )
 
     parser.add_argument(
@@ -35,7 +39,8 @@ def main():
         "-s2",
         "--slice-2",
         dest="s2",
-        help="The start and stop residue of the second terminus (start-stop)",
+        help="The positons of the start and stop residue (inclusive) for the \
+        second terminus seperated by a dash (start-stop)",
     )
 
     parser.add_argument(
@@ -74,11 +79,38 @@ def main():
         help="Distance between alpha carbons of anchoring residues in angstroms",
     )
 
+    valid = True
+    # Check to see if any arguments were inputted
     args = parser.parse_args()
-    if len(sys.argv)==1:
-       parser.print_help(sys.stderr) 
+    if len(sys.argv) == 1:
+        parser.print_help(sys.stderr)
+        valid = False
 
-    else:
+    elif len(sys.argv) > 1:
+        try:
+            SeqIO.parse(args.in1, "fasta")
+            SeqIO.parse(args.in2, "fasta")
+        except:
+            print(
+                "Error: One of the files you entered was not a FASTA file"
+            )
+            valid = False
+
+        if len(args.s1.split("-")) == 1 or len(args.s2.split("-")) == 1:
+            print(
+                "Error: The start and stop residue was not formatted correctly"
+            )
+            valid = False
+
+        try:
+            args.anchor.split(",")
+
+        except:
+            print("Error: The anchoring residues were not correct")
+            valid = False
+
+    # Check to see if the directory already exists
+    if valid == True:
         try:
             os.system("mkdir " + args.out_path)
         except:
@@ -88,11 +120,15 @@ def main():
         slice2 = args.s2.split("-")
 
         if args.nc == "T" or args.nc == "TRUE":
-            seq = Slicer(args.in1).sliceNC(int(slice1[0]), int(slice1[1]))
+            seq = Slicer(args.in1).sliceNC(
+                int(slice1[0]), int(slice1[1])
+            )
         else:
             seq = Slicer(args.in1).slice(int(slice1[0]), int(slice1[1]))
 
-        seq2 = Slicer(str(args.in2)).slice(int(slice2[0]), int(slice2[1]))
+        seq2 = Slicer(str(args.in2)).slice(
+            int(slice2[0]), int(slice2[1])
+        )
 
         # Build the structure for each termminus
         Structure.buildStructure(
@@ -160,7 +196,11 @@ def main():
         os.system("rm " + args.out_path + "/*2*")
         os.system("rm out.txt")
 
-        print("Successfully generated files {}.pdb and {}.psf in {}/".format(args.out_name, args.out_name, args.out_path))
+        print(
+            "Successfully generated files {}.pdb and {}.psf in {}/".format(
+                args.out_name, args.out_name, args.out_path
+            )
+        )
 
 
 if __name__ == "__main__":

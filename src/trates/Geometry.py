@@ -603,7 +603,9 @@ class AsnGeo(Geo):
             print("Input Rotamers List: not long enough")
             self.N_CA_CB_CG_diangle = -65.5
             self.CA_CB_CG_OD1_diangle = -58.3
-            self.CA_CB_CG_ND2_diangle = 180.0 + self.CA_CB_CG_OD1_diangle
+            self.CA_CB_CG_ND2_diangle = (
+                180.0 + self.CA_CB_CG_OD1_diangle
+            )
 
 
 class GluGeo(Geo):
@@ -661,7 +663,9 @@ class GluGeo(Geo):
             self.N_CA_CB_CG_diangle = -63.8
             self.CA_CB_CG_CD_diangle = -179.8
             self.CB_CG_CD_OE1_diangle = -6.2
-            self.CB_CG_CD_OE2_diangle = 180.0 + self.CB_CG_CD_OE1_diangle
+            self.CB_CG_CD_OE2_diangle = (
+                180.0 + self.CB_CG_CD_OE1_diangle
+            )
 
     def generateRandomRotamers(self):
         rotamer_bins = [-60, 60, 180]
@@ -849,7 +853,9 @@ class HisGeo(Geo):
             print("Input Rotamers List: not long enough")
             self.N_CA_CB_CG_diangle = -63.2
             self.CA_CB_CG_ND1_diangle = -75.7
-            self.CA_CB_CG_CD2_diangle = 180.0 + self.CA_CB_CG_ND1_diangle
+            self.CA_CB_CG_CD2_diangle = (
+                180.0 + self.CA_CB_CG_ND1_diangle
+            )
 
 
 class ProGeo(Geo):
@@ -947,7 +953,9 @@ class PheGeo(Geo):
             print("Input Rotamers List: not long enough")
             self.N_CA_CB_CG_diangle = -64.7
             self.CA_CB_CG_CD1_diangle = 93.3
-            self.CA_CB_CG_CD2_diangle = self.CA_CB_CG_CD1_diangle - 180.0
+            self.CA_CB_CG_CD2_diangle = (
+                self.CA_CB_CG_CD1_diangle - 180.0
+            )
 
 
 class TyrGeo(Geo):
@@ -1015,7 +1023,9 @@ class TyrGeo(Geo):
             print("Input Rotamers List: not long enough")
             self.N_CA_CB_CG_diangle = -64.3
             self.CA_CB_CG_CD1_diangle = 93.1
-            self.CA_CB_CG_CD2_diangle = self.CA_CB_CG_CD1_diangle + 180.0
+            self.CA_CB_CG_CD2_diangle = (
+                self.CA_CB_CG_CD1_diangle + 180.0
+            )
 
 
 class TrpGeo(Geo):
@@ -1091,7 +1101,9 @@ class TrpGeo(Geo):
             print("Input Rotamers List: not long enough")
             self.N_CA_CB_CG_diangle = -66.4
             self.CA_CB_CG_CD1_diangle = 96.3
-            self.CA_CB_CG_CD2_diangle = self.CA_CB_CG_CD1_diangle - 180.0
+            self.CA_CB_CG_CD2_diangle = (
+                self.CA_CB_CG_CD1_diangle - 180.0
+            )
 
 
 def geometry(AA: str) -> Geo:
