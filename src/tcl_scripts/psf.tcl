@@ -2,7 +2,7 @@
 #Load the psfgen package and specify the residue /
 # atom conversions
 package require psfgen
-topology {tcl_scripts/top_all36_prot.rtf}
+topology {/usr/local/lib/python3.7/site-packages/src/tcl_scripts/top_all36_prot.rtf}
 pdbalias residue HIS HSE
 pdbalias atom ILE CD1 CD
 

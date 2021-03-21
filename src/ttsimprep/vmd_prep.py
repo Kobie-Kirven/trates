@@ -51,7 +51,7 @@ class EditStructure:
 
 
 	def runTclFile(vmdPath, fileName):
-		os.system(vmdPath + " -dispdev text -e " + fileName + " > out.txt")
+		os.system(vmdPath + " -dispdev text -e " + fileName)
 		os.system("rm " + fileName)
 
 	def createTclFile(templateFileName, replaceDict):
@@ -69,7 +69,7 @@ class EditStructure:
 		EditStructure.makeAndRunTclFile("anchor.tcl", replaceDict, self.vmd_path)
 
 	def readTemplateFile(templateFileName):
-		with open(os.path.abspath("tcl_scripts/" + templateFileName)) as fn:
+		with open("/usr/local/lib/python3.7/site-packages/src/tcl_scripts/" + templateFileName) as fn:
 			return fn.readlines()
 
 	def makeAndRunTclFile(templateFileName, replaceDict, vmdPath):

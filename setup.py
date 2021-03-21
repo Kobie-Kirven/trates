@@ -2,7 +2,6 @@ import setuptools
 import sys
 from pathlib import Path
 
-
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
@@ -14,7 +13,8 @@ sys.path.insert(0, str(CURRENT_DIR))
 setuptools.setup(
     name='ttsim',
     version='1.0',
-    packages=['src'],
+    packages=['src', 'src/ttsimprep'],
+    include_package_data =True,
     entry_points={
     'console_scripts': [
         'ttsim=src.__main__:main',
