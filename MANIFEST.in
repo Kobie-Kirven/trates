@@ -1,2 +1,3 @@
 include src/tcl_scripts/*.tcl
 include src/tcl_scripts/*.rtf
+include src/tcl_scripts/*.conf

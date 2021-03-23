@@ -68,27 +68,17 @@ class EditStructure:
             "merge.tcl", replaceDict, self.vmd_path
         )
 
-    def rotateStructure(self):
-        replaceDict = dict(
-            {
-                "file_name": str(self.file2),
-                "out_file": str(self.outFile),
-                "out_path": self.outPath,
-            }
-        )
-
-        EditStructure.makeAndRunTclFile(
-            "rotate.tcl", replaceDict, self.vmd_path
-        )
-
     def runTclFile(vmdPath, fileName):
+        """Run the TCL file"""
         os.system(
             vmdPath + " -dispdev text -e " + fileName + " > out.txt"
         )
         os.system("rm " + fileName)
 
-    def createTclFile(templateFileName, replaceDict):
-        with open("temp.tcl", "w") as merge:
+    def createTclFile(
+        templateFileName, replaceDict, newFileName="temp.tcl"
+    ):
+        with open(newFileName, "w") as merge:
             lines = EditStructure.readTemplateFile(templateFileName)
             for line in lines:
                 for i in replaceDict:
@@ -120,3 +110,34 @@ class EditStructure:
     def makeAndRunTclFile(templateFileName, replaceDict, vmdPath):
         EditStructure.createTclFile(templateFileName, replaceDict)
         EditStructure.runTclFile(vmdPath, "temp.tcl")
+
+
+def createConfigFile(
+    pdbFile,
+    psfFile,
+    outName,
+    outPath,
+    time,
+    temp=310,
+    paramaters="par_all36_prot.prm",
+    minimizationSteps=2000,
+):
+
+    steps = (int(time) * 1e6) / 2
+
+    replaceDict = dict(
+        {
+            "psf_file": psfFile,
+            "pdb_file": pdbFile,
+            "TEMP": temp,
+            "PARAMATERS": paramaters,
+            "minimization_steps": minimizationSteps,
+            "nsteps": steps,
+            "TIME": time,
+            "output_name": outName
+        }
+    )
+    EditStructure.createTclFile(
+        "config_temp.conf", replaceDict, (outName + ".conf")
+    )
+    os.system("mv " + outName + ".conf " + outPath + "/")

@@ -8,7 +8,13 @@
 #!/usr/bin/env python
 
 # Imports
-from .trates import Slicer, Structure, PrepPSF, EditStructure
+from .trates import (
+    Slicer,
+    Structure,
+    PrepPSF,
+    EditStructure,
+    createConfigFile,
+)
 import os
 import sys
 import argparse
@@ -18,12 +24,15 @@ from Bio import SeqIO
 
 def main():
 
-    parser = argparse.ArgumentParser(description='TRAnsporter TErmani Simulations')
+    parser = argparse.ArgumentParser(
+        description="TRAnsporter TErmani Simulations"
+    )
     parser.add_argument(
-        "-1", 
-        "--input-1", dest="in1", 
+        "-1",
+        "--input-1",
+        dest="in1",
         help="First FASTA input file",
-        required=True
+        required=True,
     )
 
     parser.add_argument(
@@ -32,14 +41,15 @@ def main():
         dest="s1",
         help="The positons of the start and stop residue (inclusive) for the \
         first terminus seperated by a dash (start-stop)",
-        required=True
+        required=True,
     )
 
     parser.add_argument(
-        "-2", 
-        "--input-2", dest="in2", 
+        "-2",
+        "--input-2",
+        dest="in2",
         help="Second FASTA input file",
-        required=True
+        required=True,
     )
 
     parser.add_argument(
@@ -48,7 +58,7 @@ def main():
         dest="s2",
         help="The positons of the start and stop residue (inclusive) for the \
         second terminus seperated by a dash (start-stop)",
-        required=True
+        required=True,
     )
 
     parser.add_argument(
@@ -56,7 +66,7 @@ def main():
         "--output-path",
         dest="out_path",
         help="Path and name of output folder (Ex. ~/Desktop/output",
-        required=True
+        required=True,
     )
 
     parser.add_argument(
@@ -64,17 +74,23 @@ def main():
         "--n-and-c",
         dest="nc",
         help="Boolean (T/F) if the simulation is for a combination of the N-terminus and C-terminus",
-        required=True
+        required=True,
     )
 
     parser.add_argument(
-        "-vmd", "--vmd-path", dest="vmd", help="Path to VMD",
-        required=True
+        "-vmd",
+        "--vmd-path",
+        dest="vmd",
+        help="Path to VMD",
+        required=True,
     )
 
     parser.add_argument(
-        "-n", "--out-name", dest="out_name", help="Name of output files",
-        required=True
+        "-n",
+        "--out-name",
+        dest="out_name",
+        help="Name of output files",
+        required=True,
     )
 
     parser.add_argument(
@@ -82,7 +98,7 @@ def main():
         "--anchoring-residues",
         dest="anchor",
         help="Anchoring residue for each terminus in comma-seperated format",
-        required=True
+        required=True,
     )
 
     parser.add_argument(
@@ -90,7 +106,14 @@ def main():
         "--distance-apart",
         dest="distance",
         help="Distance between alpha carbons of anchoring residues in angstroms",
-        required=True
+        required=True,
+    )
+
+    parser.add_argument(
+        "-t",
+        "--simulation-time",
+        dest="time",
+        help="How long to run the simulation in nanoseconds",
     )
 
     valid = True
@@ -207,9 +230,17 @@ def main():
         os.system("rm " + args.out_path + "/*2*")
         os.system("rm out.txt")
 
+        createConfigFile(
+            args.out_name + ".pdb",
+            args.out_name + ".psf",
+            args.out_name,
+            args.out_path,
+            args.time,
+        )
+
         print(
-            "Successfully generated files {}.pdb and {}.psf in {}/".format(
-                args.out_name, args.out_name, args.out_path
+            "Successfully generated files {}.pdb, {}.psf, and {}.conf in {}/".format(
+                args.out_name, args.out_name, args.out_name, args.out_path
             )
         )
 
