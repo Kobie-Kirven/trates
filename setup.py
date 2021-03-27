@@ -17,7 +17,8 @@ setuptools.setup(
     include_package_data=True,
     entry_points={
         "console_scripts": [
-            "trates=src.__main__:main",
+            "trates-prepare=src.__main__:prepare",
+            "trates-rmsd=src.__main__:rmsd"
         ],
     },
     author="Kobie Kirven",

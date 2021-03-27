@@ -14,6 +14,8 @@ from .trates import (
     PrepPSF,
     EditStructure,
     createConfigFile,
+    RMSD,
+    Smooth
 )
 import os
 import sys
@@ -22,7 +24,7 @@ import subprocess
 from Bio import SeqIO
 
 
-def main():
+def prepare():
 
     parser = argparse.ArgumentParser(
         description="TRAnsporter TErmani Simulations"
@@ -244,6 +246,56 @@ def main():
             )
         )
 
+def rmsd():
+    parser = argparse.ArgumentParser(
+        description="RMSD calculations"
+    )
+    parser.add_argument(
+        "-psf",
+        "--psf-file",
+        dest="psf",
+        help="PSF file",
+    )
 
-if __name__ == "__main__":
-    main()
+    parser.add_argument(
+        "-dcd",
+        "--dcd-file",
+        dest="dcd",
+        help="DCD file",
+    )
+
+    parser.add_argument(
+        "-o",
+        "--out-file",
+        dest="out",
+        help="Output Data File",
+    )
+
+    parser.add_argument(
+        "-p",
+        "--image-file",
+        dest="image",
+        help="Output image",
+    )
+
+    parser.add_argument(
+        "-vmd",
+        "--vmd-path",
+        dest="vmd",
+        help="Path to vmd",
+    )
+
+    parser.add_argument(
+        "-s",
+        "--s",
+        dest="smooth",
+        help="s",
+    )
+
+
+    args = parser.parse_args()
+
+    r = RMSD(args.psf, args.dcd, args.vmd)
+    r.getRMSD(args.out)
+    RMSD.plotRMSD(args.out, args.image, smooth=int(args.smooth))
+
