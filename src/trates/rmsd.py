@@ -30,7 +30,7 @@ class RMSD:
 			data[0][i] = ((data[0][i]*5000)*2)/1000000
 
 		if smooth >1:
-			data = Smooth.smoothPlot(data[1],data[0],smooth)
+			data = Smooth.slidingWindow(data[1],data[0],smooth)
 		#Create the plot
 		fig, ax = plt.subplots()
 		ax.plot(data[0], data[1])

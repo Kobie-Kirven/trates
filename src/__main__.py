@@ -15,7 +15,8 @@ from .trates import (
     EditStructure,
     createConfigFile,
     RMSD,
-    Smooth
+    Smooth,
+    NativeContacts
 )
 import os
 import sys
@@ -298,4 +299,94 @@ def rmsd():
     r = RMSD(args.psf, args.dcd, args.vmd)
     r.getRMSD(args.out)
     RMSD.plotRMSD(args.out, args.image, smooth=int(args.smooth))
+
+
+def native_contacts():
+    parser = argparse.ArgumentParser(
+        description="Calculate native contacts"
+    )
+    parser.add_argument(
+        "-psf",
+        "--psf-file",
+        dest="psf",
+        help="PSF file",
+    )
+
+    parser.add_argument(
+        "-dcd",
+        "--dcd-file",
+        dest="dcd",
+        help="DCD file",
+    )
+
+    parser.add_argument(
+        "-vmd",
+        "--vmd-path",
+        dest="vmd",
+        help="Path to vmd",
+    )
+
+    parser.add_argument(
+        "-o",
+        "--out-file",
+        dest="out",
+        help="Output Data File",
+    )
+
+    parser.add_argument(
+        "-f",
+        "--frame-span",
+        dest="frame",
+        help="Start and stop frame",
+    )
+
+    parser.add_argument(
+        "-d",
+        "--contact-distance",
+        dest="distance",
+        help="Cutoff distance for native contacts",
+    )
+
+    parser.add_argument(
+        "-inter",
+        "--intermolecular",
+        dest="inter",
+        help="Intramoleular native contacts",
+    )
+
+    args = parser.parse_args()
+
+    replaceDict = {"psf_file":args.psf, "dcd_file": args.dcd,
+     "frame_number":0}
+
+    fn = open(args.out, "w")
+    counts = []
+    frames = args.frame.split("-")
+    fn.write('Frame\tContacts\n')
+    for i in range(int(frames[0]), int(frames[1])):
+        percent = (100 / (int(frames[1]) - int(frames[0]))) *(i +1)
+        replaceDict["frame_number"] = i
+        EditStructure.makeAndRunTclFile("getPDBfromDCD.tcl", replaceDict, args.vmd)
+
+        if args.inter == "T":
+             count = NativeContacts("frame.pdb").getIntermolecularContacts(int(args.distance))
+
+        else:
+            count = NativeContacts("frame.pdb").getIntramolecularContacts(int(args.distance), 2, 1)
+
+        print("{} % done".format(percent))
+
+        fn.write(str(i) + '\t' + str(count) + "\n")
+    fn.close()
+    os.system("rm frame.pdb")
+
+
+
+
+
+
+
+
+
+
 
