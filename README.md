@@ -25,8 +25,8 @@ TRATES takes as input 2 fasta files, each containing only one sequence.
 <h3> TRATES Command Line Options</h3>
 
 ```text
-usage: trates [-h] -1 IN1 -s1 S1 -2 IN2 -s2 S2 -o OUT_PATH -nc NC -vmd VMD -n
-              OUT_NAME -a ANCHOR -d DISTANCE
+usage: trates-prepare [-h] -1 IN1 -s1 S1 -2 IN2 -s2 S2 -o OUT_PATH -nc NC -vmd
+                      VMD -n OUT_NAME -a ANCHOR -d DISTANCE [-t TIME]
 
 TRAnsporter TErmani Simulations
 
@@ -56,4 +56,51 @@ optional arguments:
   -d DISTANCE, --distance-apart DISTANCE
                         Distance between alpha carbons of anchoring residues
                         in angstroms
+  -t TIME, --simulation-time TIME
+                        How long to run the simulation in nanoseconds
+
+```
+```text
+usage: trates-rmsd [-h] [-psf PSF] [-dcd DCD] [-o OUT] [-p IMAGE] [-vmd VMD]
+                   [-s SMOOTH]
+
+RMSD calculations
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -psf PSF, --psf-file PSF
+                        PSF file
+  -dcd DCD, --dcd-file DCD
+                        DCD file
+  -o OUT, --out-file OUT
+                        Output Data File
+  -p IMAGE, --image-file IMAGE
+                        Output image
+  -vmd VMD, --vmd-path VMD
+                        Path to vmd
+  -s SMOOTH, --s SMOOTH
+                        s
+```
+```text
+usage: trates-native-contacts [-h] [-psf PSF] [-dcd DCD] [-vmd VMD] [-o OUT]
+                              [-f FRAME] [-d DISTANCE] [-inter INTER]
+
+Calculate native contacts
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -psf PSF, --psf-file PSF
+                        PSF file
+  -dcd DCD, --dcd-file DCD
+                        DCD file
+  -vmd VMD, --vmd-path VMD
+                        Path to vmd
+  -o OUT, --out-file OUT
+                        Output Data File
+  -f FRAME, --frame-span FRAME
+                        Start and stop frame
+  -d DISTANCE, --contact-distance DISTANCE
+                        Cutoff distance for native contacts
+  -inter INTER, --intermolecular INTER
+                        Intramoleular native contacts
 ```
