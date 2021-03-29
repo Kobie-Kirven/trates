@@ -19,7 +19,8 @@ setuptools.setup(
         "console_scripts": [
             "trates-prepare=src.__main__:prepare",
             "trates-rmsd=src.__main__:rmsd",
-            "trates-native-contacts=src.__main__:native_contacts"
+            "trates-native-contacts=src.__main__:native_contacts",
+            "trates-plot=src.__main__:plot"
         ],
     },
     author="Kobie Kirven",

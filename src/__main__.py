@@ -16,7 +16,8 @@ from .trates import (
     createConfigFile,
     RMSD,
     Smooth,
-    NativeContacts
+    NativeContacts,
+    Plot
 )
 import os
 import sys
@@ -272,12 +273,6 @@ def rmsd():
         help="Output Data File",
     )
 
-    parser.add_argument(
-        "-p",
-        "--image-file",
-        dest="image",
-        help="Output image",
-    )
 
     parser.add_argument(
         "-vmd",
@@ -286,19 +281,11 @@ def rmsd():
         help="Path to vmd",
     )
 
-    parser.add_argument(
-        "-s",
-        "--s",
-        dest="smooth",
-        help="s",
-    )
-
 
     args = parser.parse_args()
 
     r = RMSD(args.psf, args.dcd, args.vmd)
     r.getRMSD(args.out)
-    RMSD.plotRMSD(args.out, args.image, smooth=int(args.smooth))
 
 
 def native_contacts():
@@ -309,14 +296,14 @@ def native_contacts():
         "-psf",
         "--psf-file",
         dest="psf",
-        help="PSF file",
+        help="Protein structure (PSF) file",
     )
 
     parser.add_argument(
         "-dcd",
         "--dcd-file",
         dest="dcd",
-        help="DCD file",
+        help="Trajectory (DCD) file",
     )
 
     parser.add_argument(
@@ -330,28 +317,43 @@ def native_contacts():
         "-o",
         "--out-file",
         dest="out",
-        help="Output Data File",
+        help="Name of output file (.txt)",
     )
 
     parser.add_argument(
         "-f",
         "--frame-span",
         dest="frame",
-        help="Start and stop frame",
+        help="Begining and ending frame of simulation",
     )
 
     parser.add_argument(
         "-d",
         "--contact-distance",
         dest="distance",
-        help="Cutoff distance for native contacts",
+        help="Cutoff distance in angstroms for native contacts",
     )
 
     parser.add_argument(
-        "-inter",
-        "--intermolecular",
-        dest="inter",
-        help="Intramoleular native contacts",
+        "-t",
+        "--contact-type",
+        dest="type",
+        help="Type of native coontact (options: inter, intra, all)",
+    )
+
+    parser.add_argument(
+        "-r",
+        "--residue-cut-off",
+        dest="cutoff",
+        help="Intramolecular: Cutoff for native contacts (only interactions more than a specified \
+                distance apart",
+    )
+
+    parser.add_argument(
+        "-c",
+        "--chain-number",
+        dest="chain",
+        help="Intramolecular: Chain number (1 or 2)",
     )
 
     args = parser.parse_args()
@@ -368,11 +370,16 @@ def native_contacts():
         replaceDict["frame_number"] = i
         EditStructure.makeAndRunTclFile("getPDBfromDCD.tcl", replaceDict, args.vmd)
 
-        if args.inter == "T":
+        if args.type.lower() == "inter":
              count = NativeContacts("frame.pdb").getIntermolecularContacts(int(args.distance))
 
-        else:
-            count = NativeContacts("frame.pdb").getIntramolecularContacts(int(args.distance), 2, 1)
+        elif args.type.lower() == "intra":
+            count = NativeContacts("frame.pdb").getIntramolecularContacts(int(args.distance), 
+                int(args.cutoff), (int(args.chain)-1))
+
+        elif args.type.lower() == "all":
+            count = NativeContacts.getAllContacts(int(args.distance), 
+                int(args.cutoff))
 
         print("{} % done".format(percent))
 
@@ -380,7 +387,42 @@ def native_contacts():
     fn.close()
     os.system("rm frame.pdb")
 
+def plot():
 
+    parser = argparse.ArgumentParser(
+        description="Plot the output data"
+    )
+
+    parser.add_argument(
+        "-i",
+        "--input-file",
+        dest="input",
+        help="Input data file",
+    )
+
+    parser.add_argument(
+        "-o",
+        "--image-file",
+        dest="image",
+        help="Output image",
+    )
+
+    parser.add_argument(
+        "-s",
+        "--sliding-widow",
+        dest="smooth",
+        help="Sliding window length for smoothing",
+    )
+
+    parser.add_argument(
+        "-d",
+        "--data-type",
+        dest="type",
+        help="Data type (rmsd, conacts)",
+    )
+
+    args = parser.parse_args()
+    Plot.plotData(args.input,args.image, args.type, int(args.smooth))
 
 
 

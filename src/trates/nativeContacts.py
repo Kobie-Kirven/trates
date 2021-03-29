@@ -55,10 +55,10 @@ class NativeContacts(TerminiStructure):
         '''Calculate the native contacts within each chain
             
             input - cutoff distance in angstroms, 
-                    residue number to reduce redundancey, 
+                    Residue distance cutoff, 
                     chain number of structure
 
-            output - a count of native contacts
+            output - count of native contacts
         '''
         allAtoms = TerminiStructure.getAllAtoms(self)
         specChain = allAtoms[chain]
@@ -72,3 +72,23 @@ class NativeContacts(TerminiStructure):
                             if atomi - atomz <= residueCutoff:
                                 count += 1
         return count
+
+    def getAllContacts(self, distance, residueCutoff):
+    	""" Calculate all of the native contacts
+
+    	input - cutoff distance in angstroms,
+    		  - Residue distance cutoff
+
+    	output - count of native contacts
+    	"""
+    	total = NativeContacts.getIntermolecularContacts(distance)
+    	for i in range(3):
+    		total += NativeContacts.getIntramolecularContacts(distance, residueCutoff, i)
+    	return total
+
+
+
+
+
+
+
